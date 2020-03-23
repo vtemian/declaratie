@@ -1,0 +1,69 @@
+<!doctype>
+<html>
+<head>
+    <title>Declaratie</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        @CHARSET "UTF-8";
+        #html-2-pdfwrapper{
+          position: absolute;
+          left: 20px;
+          top: 50px;
+          bottom: 0;
+          overflow: auto;
+          width: 600px;
+        }
+      </style>
+
+      <script>
+          margins = {
+          top: 70,
+          bottom: 40,
+          left: 30,
+          width: 550
+        };
+
+        generate = function()
+        {
+          var pdf = new jsPDF('p', 'pt', 'a4');
+          pdf.setFontSize(18);
+
+          var html = document.getElementById('html-2-pdfwrapper').cloneNode(true);
+
+          html.querySelectorAll('input').forEach(function(node) {
+              var span = document.createElement("span");
+              span.textContent = node.value;
+
+              node.parentNode.appendChild(span);
+              node.parentNode.removeChild(node)
+          });
+
+          pdf.fromHTML(html,
+            margins.left, // x coord
+            margins.top,
+            {
+              width: margins.width// max width of content on PDF
+            },
+            margins);
+
+          var iframe = document.createElement('iframe');
+          iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
+          document.body.appendChild(iframe);
+
+          iframe.src = pdf.output('datauristring');
+        };
+      </script>
+ </head>
+<body>
+  <button onclick="generate()">Generate PDF</button>
+  <div id="html-2-pdfwrapper">
+      <p>
+          Declarație pe proprie răspundere,
+      </p>
+      <p>
+          Subsemnatul(a), <span class="parent"><input type="text" /></span>, fiul/fiica lui <span class="parent"><input type="text" /></span> si al  <span class="parent"><input type="text" /></span>
+      </p>
+  </div>
+  <script src='jspdf.min.js'></script>
+</body>
+</html>
