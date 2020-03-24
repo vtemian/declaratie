@@ -7,7 +7,7 @@ import { color, spacing } from "../helpers/constants";
 const Label = styled.label`
   display: block;
   cursor: pointer;
-  margin: 0 0 ${spacing.small} ${spacing.medium};
+  margin-bottom: ${spacing.small};
 `;
 
 const Input = styled.input`

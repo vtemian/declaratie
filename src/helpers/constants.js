@@ -5,7 +5,7 @@ export const color = {
 
 export const spacing = {
   initial: "initial",
-  small: "25px",
+  small: "15px",
   medium: "35px",
   large: "65px",
 };
@@ -27,6 +27,7 @@ export const fontFamily = {
 };
 
 export const fontSize = {
+  tiny: "14px",
   small: "16px",
   medium: "18px",
   large: "64px",

@@ -4,13 +4,13 @@ import { createGlobalStyle } from "styled-components";
 import { useSetState } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
 
-import Form from "../components/Form";
 import Input from "../components/Input";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import Wrapper from "../components/Wrapper";
 import Urgency from "../components/Urgency";
 import Paragraph from "../components/Paragraph";
+import Section from "../components/Section";
 
 const CSSReset = createGlobalStyle`
   html, body, p, ol, ul, li, hr, h1, h2, h3, h4, h5, h6 {
@@ -70,6 +70,7 @@ function Main() {
     interval_orar: undefined,
     traseu_start: undefined,
     situatie_urgenta: undefined,
+    deplasare_general: false,
     deplasare_servici: false,
     deplasare_consult: false,
     deplasare_cumparaturi: false,
@@ -97,10 +98,10 @@ function Main() {
       <Wrapper>
         <Title>declarație.ro</Title>
 
-        <Form>
+        <Section>
           <Paragraph>Declarație pe proprie răspundere,</Paragraph>
 
-          <Paragraph>
+          <Paragraph bottom="medium">
             Subsemnatul(a)
             <Input name="nume" value={form?.nume} onChange={onChange} />, fiul/fiica lui
             <Input name="nume_tata" value={form?.nume_tata} onChange={onChange} /> și al
@@ -115,10 +116,13 @@ function Main() {
             CNP
             <Input name="cnp" value={form?.cnp} onChange={onChange} />, BI/CI seria
             <Input size="small" name="ci_seria" value={form?.ci_seria} onChange={onChange} />, număr
-            <Input name="ci_numar" value={form?.ci_numar} onChange={onChange} />, locuind în fapt în localitatea
-            <Input name="domiciliu_localitate" value={form?.domiciliu_localitate} onChange={onChange} />
-            județul/sectorul
-            <Input name="domiciliu_judet" value={form?.domiciliu_judet} onChange={onChange} />, strada
+            <Input name="ci_numar" value={form?.ci_numar} onChange={onChange} />.
+          </Paragraph>
+
+          <Paragraph>
+            Locuind în fapt în localitatea
+            <Input name="domiciliu_localitate" value={form?.domiciliu_localitate} onChange={onChange} />,
+            județul/sectorul <Input name="domiciliu_judet" value={form?.domiciliu_judet} onChange={onChange} />, strada
             <Input name="domiciliu_strada" value={form?.domiciliu_strada} onChange={onChange} />, număr
             <Input size="small" name="domiciliu_numar" value={form?.domiciliu_numar} onChange={onChange} />, bloc
             <Input size="small" name="domiciliu_bloc" value={form?.domiciliu_bloc} onChange={onChange} />, etaj
@@ -163,9 +167,16 @@ function Main() {
               <Input size="large" name="situatie_urgenta" value={form?.situatie_urgenta} onChange={onChange} />.
             </Urgency>
           </Paragraph>
-        </Form>
+        </Section>
 
         <Button>Descarcă PDF</Button>
+
+        <Section>
+          <Paragraph textSize="tiny" bottom="initial">
+            * Nu ne asumăm responsabilatea pentru corectitudinea, integralitatea și actualitatea informațiilor furnizate
+            pe acest site sau pentru daunele rezultate din utilizarea sau neutilizarea lui.
+          </Paragraph>
+        </Section>
       </Wrapper>
     </Fragment>
   );
