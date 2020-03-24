@@ -1,17 +1,39 @@
 export const color = {
   white: "#ffffff",
-  gray: "#f2f2f2",
-  darkGray: "#e8e8e8",
   black: "#000000",
 };
 
+export const spacing = {
+  initial: "initial",
+  small: "15px",
+  medium: "35px",
+  large: "65px",
+};
+
+export const width = {
+  small: "30px",
+  medium: "100px",
+  large: "250px",
+};
+
+export const borderRadius = {
+  small: "3px",
+  large: "5px",
+};
+
 export const fontFamily = {
-  serif: '"Lora", Georgia, serif',
-  sansSerif: '"Roboto Condensed", Helvetica, Arial, sans-serif',
+  serif: '"EB Garamond", Georgia, serif',
+  sansSerif: '"Roboto", Helvetica, Arial, sans-serif',
 };
 
 export const fontSize = {
-  small: "12px",
-  medium: "14px",
-  large: "16px",
+  tiny: "14px",
+  small: "16px",
+  medium: "18px",
+  large: "64px",
+};
+
+export const fontWeight = {
+  regular: 400,
+  bold: 600,
 };

@@ -8,12 +8,47 @@
     <meta name="description" content="Model de declarație pentru ordonanța militară" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700&display=swap&subset=latin-ext" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,700|Roboto&display=swap" rel="stylesheet" />
     <title>Declarație.ro</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161780397-1"></script>
+
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-161780397-1");
+    </script>
   </head>
   <body>
     <noscript>Trebuie să activați JavaScript pentru a rula această aplicație.</noscript>
     <div id="root"></div>
+
+    <script>
+      window.cookieconsent.initialise({
+        palette: {
+          popup: {
+            background: "#efefef",
+            text: "#404040",
+          },
+          button: {
+            background: "#000000",
+            text: "#ffffff",
+          },
+        },
+        content: {
+          message:
+            "Acest site foloseste cookie-uri pentru o mai buna experienta de vizitare. Prin continuarea navigarii, esti de acord cu modul de utilizare a acestor informatii.",
+          dismiss: "Accept",
+          link: "Vezi detalii",
+          href: "XXXXX",
+        },
+      });
+    </script>
   </body>
 </html>

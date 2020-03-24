@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-import { color } from "../helpers/constants";
-
-const Wrapper = styled.div`
-  padding: 100px 50px;
-  background-color: ${color.white};
-  box-shadow: 0px 2px 10px ${color.darkGray};
+const Wrapper = styled.section`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 760px;
+  margin: 65px auto;
 `;
 
 export default Wrapper;
