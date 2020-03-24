@@ -27,7 +27,7 @@ export const fontFamily = {
 };
 
 export const fontSize = {
-  tiny: "14px",
+  tiny: "12px",
   small: "16px",
   medium: "18px",
   large: "64px",

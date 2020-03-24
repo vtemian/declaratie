@@ -178,6 +178,9 @@ function Main() {
             * Nu ne asumăm responsabilatea pentru corectitudinea, integralitatea și actualitatea informațiilor furnizate
             pe acest site sau pentru daunele rezultate din utilizarea sau neutilizarea lui.
           </Paragraph>
+          <Paragraph textSize="tiny" bottom="initial">
+            * Aplicația rulează doar în browser și nu colectează datele personale ale utilizatorului.
+          </Paragraph>
         </Section>
 
         <Section>
