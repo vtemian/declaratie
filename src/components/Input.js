@@ -1,17 +1,27 @@
 import AutosizeInput from "react-input-autosize";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { color, fontSize, fontFamily } from "../helpers/constants";
+import { color, width, fontWeight, borderRadius } from "../helpers/constants";
 
 const Input = styled(AutosizeInput)`
-  padding: 5px;
-  margin: 0 10px;
-  border-bottom: 1px solid ${color.black};
+  margin: 0 2px 0 5px;
   input {
+    padding: 5px 10px;
     text-transform: uppercase;
-    font-size: ${fontSize.large};
-    font-family: ${fontFamily.sansSerif};
+    font-weight: ${fontWeight.bold};
+    border: 1px solid ${color.black};
+    border-radius: ${borderRadius.small};
+    min-width: ${({ size }) => width[size]};
   }
 `;
+
+Input.propTypes = {
+  size: PropTypes.oneOf(["small", "medium", "large"]),
+};
+
+Input.defaultProps = {
+  size: "medium",
+};
 
 export default Input;
