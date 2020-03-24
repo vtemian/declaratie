@@ -1,10 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 import Paragraph from "../pdf/Paragraph";
 import Wrapper from "../pdf/Wrapper";
 import Text from "../pdf/Text";
-import Input from "../native/Input";
-import Section from "../native/Section";
 
 
 const Declaration = ({context}) => {
