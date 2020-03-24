@@ -16,7 +16,7 @@ Paragraph.propTypes = {
 };
 
 Paragraph.defaultProps = {
-  size: "small",
+  textSize: "small",
   bottom: "large",
 };
 

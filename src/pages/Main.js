@@ -4,13 +4,16 @@ import { createGlobalStyle } from "styled-components";
 import { useSetState } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
 
-import Input from "../components/Input";
-import Title from "../components/Title";
-import Button from "../components/Button";
-import Wrapper from "../components/Wrapper";
-import Urgency from "../components/Urgency";
-import Paragraph from "../components/Paragraph";
-import Section from "../components/Section";
+import Input from "../native/Input";
+import Title from "../native/Title";
+import Button from "../native/Button";
+import Wrapper from "../native/Wrapper";
+import Urgency from "../native/Urgency";
+import Paragraph from "../native/Paragraph";
+import Section from "../native/Section";
+import Renderer from "../native/Renderer";
+
+import Declaration from "../documents/declaration";
 
 const CSSReset = createGlobalStyle`
   html, body, p, ol, ul, li, hr, h1, h2, h3, h4, h5, h6 {
@@ -47,29 +50,29 @@ const CSSReset = createGlobalStyle`
 
 function Main() {
   const [form, setForm] = useSetState({
-    nume: undefined,
-    nume_tata: undefined,
-    nume_mama: undefined,
-    adresa_localitate: undefined,
-    adresa_judet: undefined,
-    adresa_strada: undefined,
-    adresa_numar: undefined,
-    adresa_bloc: undefined,
-    adresa_etaj: undefined,
-    adresa_apartament: undefined,
-    cnp: undefined,
-    ci_seria: undefined,
-    ci_numar: undefined,
-    domiciliu_localitate: undefined,
-    domiciliu_judet: undefined,
-    domiciliu_strada: undefined,
-    domiciliu_numar: undefined,
-    domiciliu_bloc: undefined,
-    domiciliu_etaj: undefined,
-    domiciliu_apartament: undefined,
-    interval_orar: undefined,
-    traseu_start: undefined,
-    situatie_urgenta: undefined,
+    nume: "",
+    nume_tata: "",
+    nume_mama: "",
+    adresa_localitate: "",
+    adresa_judet: "",
+    adresa_strada: "",
+    adresa_numar: "",
+    adresa_bloc: "",
+    adresa_etaj: "",
+    adresa_apartament: "",
+    cnp: "",
+    ci_seria: "",
+    ci_numar: "",
+    domiciliu_localitate: "",
+    domiciliu_judet: "",
+    domiciliu_strada: "",
+    domiciliu_numar: "",
+    domiciliu_bloc: "",
+    domiciliu_etaj: "",
+    domiciliu_apartament: "",
+    interval_orar: "",
+    traseu_start: "",
+    situatie_urgenta: "",
     deplasare_servici: false,
     deplasare_consult: false,
     deplasare_cumparaturi: false,
@@ -176,6 +179,13 @@ function Main() {
             pe acest site sau pentru daunele rezultate din utilizarea sau neutilizarea lui.
           </Paragraph>
         </Section>
+
+        <Section>
+          <Renderer>
+            <Declaration context={form}/>
+          </Renderer>
+        </Section>
+
       </Wrapper>
     </Fragment>
   );
