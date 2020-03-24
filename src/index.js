@@ -1,4 +1,6 @@
-import React, { Fragment } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 
-ReactDOM.render(<Fragment>declaratie.ro</Fragment>, document.getElementById("root"));
+import Main from "./pages/Main";
+
+ReactDOM.render(<Main />, document.getElementById("root"));
