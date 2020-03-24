@@ -70,7 +70,6 @@ function Main() {
     interval_orar: undefined,
     traseu_start: undefined,
     situatie_urgenta: undefined,
-    deplasare_general: false,
     deplasare_servici: false,
     deplasare_consult: false,
     deplasare_cumparaturi: false,
