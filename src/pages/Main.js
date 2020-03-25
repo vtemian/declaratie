@@ -1,5 +1,6 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
+import { PDFViewer } from '@react-pdf/renderer';
 
 import { useSetState } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
@@ -11,6 +12,7 @@ import Wrapper from "../components/Wrapper";
 import Section from "../components/Section";
 import TextField from "../components/TextField";
 import CheckboxLabel from "../components/CheckboxLabel";
+import Renderer from "../pdf/Renderer";
 
 const CSSReset = createGlobalStyle`
   html, body, p, ol, ul, li, hr, h1, h2, h3, h4, h5, h6 {
@@ -99,6 +101,10 @@ function Main() {
         <Title>declarație.ro</Title>
       </Section>
 
+      <PDFViewer width={760} height={1200}>
+        <Renderer context={form} />
+      </PDFViewer>
+
       <Section>Declarație pe proprie răspundere,</Section>
 
       <Section bottom="medium">
@@ -168,6 +174,7 @@ function Main() {
       <Section align="center">
         <Button>Descarcă PDF</Button>
       </Section>
+
 
 
       <Section bottom="small" textSize="small">

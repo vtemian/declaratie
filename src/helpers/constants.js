@@ -22,8 +22,8 @@ export const borderRadius = {
 };
 
 export const fontFamily = {
-  serif: '"EB Garamond", Georgia, serif',
-  sansSerif: '"Roboto", Helvetica, Arial, sans-serif',
+  serif: 'EB Garamond',
+  sansSerif: 'Roboto',
 };
 
 export const fontSize = {
