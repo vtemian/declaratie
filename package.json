@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "date-format": "^3.0.0",
+    "@react-pdf/renderer": "^1.6.8",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-input-autosize": "^2.2.2",
