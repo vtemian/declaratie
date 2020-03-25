@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { createGlobalStyle } from "styled-components";
-import { PDFViewer } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 
 import { useSetState } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
@@ -48,30 +48,33 @@ const CSSReset = createGlobalStyle`
 `;
 
 function Main() {
+  const [isGenerated, setIsGenerated] = useState(false);
+
   const [form, setForm] = useSetState({
-    nume: undefined,
-    nume_tata: undefined,
-    nume_mama: undefined,
-    adresa_localitate: undefined,
-    adresa_judet: undefined,
-    adresa_strada: undefined,
-    adresa_numar: undefined,
-    adresa_bloc: undefined,
-    adresa_etaj: undefined,
-    adresa_apartament: undefined,
-    cnp: undefined,
-    ci_seria: undefined,
-    ci_numar: undefined,
-    domiciliu_localitate: undefined,
-    domiciliu_judet: undefined,
-    domiciliu_strada: undefined,
-    domiciliu_numar: undefined,
-    domiciliu_bloc: undefined,
-    domiciliu_etaj: undefined,
-    domiciliu_apartament: undefined,
-    interval_orar: undefined,
-    traseu_start: undefined,
-    situatie_urgenta: undefined,
+    nume: "",
+    nume_tata: "",
+    nume_mama: "",
+    adresa_localitate: "",
+    adresa_judet: "",
+    adresa_strada: "",
+    adresa_numar: "",
+    adresa_bloc: "",
+    adresa_etaj: "",
+    adresa_apartament: "",
+    cnp: "",
+    ci_seria: "",
+    ci_numar: "",
+    domiciliu_localitate: "",
+    domiciliu_judet: "",
+    domiciliu_strada: "",
+    domiciliu_numar: "",
+    domiciliu_bloc: "",
+    domiciliu_etaj: "",
+    domiciliu_apartament: "",
+    interval_orar: "",
+    traseu_start: "",
+    traseu_sfarsit: "",
+    situatie_urgenta: "",
     deplasare_servici: false,
     deplasare_consult: false,
     deplasare_cumparaturi: false,
@@ -101,9 +104,9 @@ function Main() {
         <Title>declarație.ro</Title>
       </Section>
 
-      <PDFViewer width={760} height={1200}>
-        <Renderer context={form} />
-      </PDFViewer>
+      {/* <PDFViewer width={760} height={1200}>
+        <Renderer form={form} />
+      </PDFViewer> */}
 
       <Section>Declarație pe proprie răspundere,</Section>
 
@@ -172,10 +175,14 @@ function Main() {
       </Section>
 
       <Section align="center">
-        <Button>Descarcă PDF</Button>
+        <Button onClick={setIsGenerated}>Descarcă PDF</Button>
+
+        {isGenerated ? (
+          <PDFDownloadLink document={<Renderer form={form} />} fileName="declaratie_proprie_raspundere.pdf">
+            {({ url }) => url && window.location.assign(url)}
+          </PDFDownloadLink>
+        ) : null}
       </Section>
-
-
 
       <Section bottom="small" textSize="small">
         * Nu ne asumăm responsabilatea pentru corectitudinea, integralitatea și actualitatea informațiilor furnizate pe
@@ -183,12 +190,6 @@ function Main() {
       </Section>
       <Section bottom="small" textSize="small">
         * Aplicația rulează doar în browser și nu colectează datele personale ale utilizatorului.
-      </Section>
-
-      <Section bottom="initial" textSize="small">
-        Un proiect de <Link href="https://github.com/vtemian" target="_blank">Vlad Temian</Link>
-        , <Link href="https://balajmarius.com" target="_blank">Marius Bălaj</Link>
-        , <Link href="https://www.linkedin.com/in/mihai-grescenko-1730ab130" target="_blank">Desero</Link>.
       </Section>
     </Wrapper>
   );
