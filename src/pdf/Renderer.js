@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
 });
 
 function Renderer({ form }) {
+  const placeholder = "-----";
+
   return (
     <Document>
       <Page style={styles.page}>
@@ -61,43 +63,67 @@ function Renderer({ form }) {
 
         <View style={styles.section}>
           <Text style={styles.text}>
-            Subsemnatul(a) <Text style={styles.textBold}>{form?.nume}</Text>, fiul/fiica lui
-            <Text style={styles.textBold}>{form?.nume_tata}</Text> și al
-            <Text style={styles.textBold}>{form?.nume_mama}</Text> domiciliat(ă) în
-            <Text style={styles.textBold}>{form?.adresa_localitate}</Text> județul/sectorul
-            <Text style={styles.textBold}>{form?.adresa_judet}</Text>, strada
-            <Text style={styles.textBold}>{form?.adresa_strada}</Text> număr
-            <Text style={styles.textBold}>{form?.adresa_numar}</Text>, bloc
-            <Text style={styles.textBold}>{form?.bloc}</Text>, etaj
-            <Text style={styles.textBold}>{form?.etaj}</Text>, apartament
-            <Text style={styles.textBold}>{form?.apartament}</Text>, având CNP
-            <Text style={styles.textBold}>{form?.cnp}</Text>, BI/CI seria
-            <Text style={styles.textBold}>{form?.ci_seria}</Text>, număr
-            <Text style={styles.textBold}>{form?.ci_numar}</Text>.
+            <Text>Subsemnatul(a) </Text>
+            <Text style={styles.textBold}>{form?.nume}</Text>
+            <Text>, fiul/fiica lui </Text>
+            <Text style={styles.textBold}>{form?.nume_tata}</Text>
+            <Text> și al </Text>
+            <Text style={styles.textBold}>{form?.nume_mama}</Text>
+            <Text> domiciliat(ă) în </Text>
+            <Text style={styles.textBold}>{form?.adresa_localitate}</Text>
+            <Text> județul/sectorul </Text>
+            <Text style={styles.textBold}>{form?.adresa_judet}</Text>
+            <Text>, strada </Text>
+            <Text style={styles.textBold}>{form?.adresa_strada}</Text>
+            <Text> număr </Text>
+            <Text style={styles.textBold}>{form?.adresa_numar}</Text>
+            <Text>, bloc </Text>
+            <Text style={styles.textBold}>{form?.adresa_bloc}</Text>
+            <Text>, etaj </Text>
+            <Text style={styles.textBold}>{form?.adresa_etaj}</Text>
+            <Text>, apartament </Text>
+            <Text style={styles.textBold}>{form?.adresa_apartament}</Text>
+            <Text>, având CNP </Text>
+            <Text style={styles.textBold}>{form?.cnp}</Text>
+            <Text>, BI/CI seria </Text>
+            <Text style={styles.textBold}>{form?.ci_seria}</Text>
+            <Text>, număr </Text>
+            <Text style={styles.textBold}>{form?.ci_numar}</Text>
+            <Text>.</Text>
           </Text>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.text}>
-            Locuind în fapt în localitatea <Text style={styles.textBold}>{form?.domiciliu_localitate}</Text>,
-            județul/sectorul
-            <Text style={styles.textBold}>{form?.domiciliu_judet}</Text>, strada
-            <Text style={styles.textBold}>{form?.domiciliu_strada}</Text>, număr
-            <Text style={styles.textBold}>{form?.domiciliu_numar}</Text>, bloc
-            <Text style={styles.textBold}>{form?.domiciliu_bloc}</Text>, etaj
-            <Text style={styles.textBold}>{form?.domiciliu_etaj}</Text>, apartament
-            <Text style={styles.textBold}>{form?.domiciliu_apartament}</Text>.
+            <Text>Locuind în fapt în localitatea </Text>
+            <Text style={styles.textBold}>{form?.domiciliu_localitate ?? placeholder}</Text>
+            <Text>, județul/sectorul </Text>
+            <Text style={styles.textBold}>{form?.domiciliu_judet ?? placeholder}</Text>
+            <Text>, strada </Text>
+            <Text style={styles.textBold}>{form?.domiciliu_strada ?? placeholder}</Text>
+            <Text>, număr </Text>
+            <Text style={styles.textBold}>{form?.domiciliu_numar ?? placeholder}</Text>
+            <Text>, bloc </Text>
+            <Text style={styles.textBold}>{form?.domiciliu_bloc ?? placeholder}</Text>
+            <Text>, etaj </Text>
+            <Text style={styles.textBold}>{form?.domiciliu_etaj ?? placeholder}</Text>
+            <Text>, apartament </Text>
+            <Text style={styles.textBold}>{form?.domiciliu_apartament ?? placeholder}</Text>
+            <Text>.</Text>
           </Text>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.text}>
-            Cunoscând prevederile articolului 326, referitoare la falsul în declarații precum și ale art. 352
+            <Text>Cunoscând prevederile articolului 326, referitoare la falsul în declarații precum și ale art. 352
             referitoare la zădărnicirea combaterii bolilor din Noul Cod Penal, declar pe proprie răspundere faptul că mă
-            deplasez în interes profesional/personal, între orele
-            <Text style={styles.textBold}>{form?.interval_orar}</Text>, de la
-            <Text style={styles.textBold}>{form?.traseu_start}</Text>, până la
-            <Text style={styles.textBold}>{form?.traseu_sfarsit}</Text> pentru:
+            deplasez în interes profesional/personal, între orele </Text>
+            <Text style={styles.textBold}>{form?.interval_orar}</Text>
+            <Text>, de la </Text>
+            <Text style={styles.textBold}>{form?.traseu_start}</Text>
+            <Text>, până la </Text>
+            <Text style={styles.textBold}>{form?.traseu_sfarsit}</Text>
+            <Text> pentru: </Text>
           </Text>
         </View>
 
@@ -146,8 +172,8 @@ function Renderer({ form }) {
           <View style={styles.block}>
             <View style={[styles.checkbox, form?.deplasare_urgenta && styles.checked]} />
             <Text style={styles.text}>
-              Deplasare pentru rezolvarea următoarei situații urgente:
-              <Text style={styles.textBold}>{form?.situatie_urgenta}</Text>.
+              <Text>Deplasare pentru rezolvarea următoarei situații urgente: </Text>
+              <Text style={styles.textBold}>{form?.situatie_urgenta ?? placeholder}</Text>.
             </Text>
           </View>
         </View>
