@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createGlobalStyle } from "styled-components";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import { useSetState } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
@@ -104,10 +104,6 @@ function Main() {
         <Title>declarație.ro</Title>
       </Section>
 
-      {/* <PDFViewer width={760} height={1200}>
-        <Renderer form={form} />
-      </PDFViewer> */}
-
       <Section>Declarație pe proprie răspundere,</Section>
 
       <Section bottom="medium">
@@ -190,6 +186,12 @@ function Main() {
       </Section>
       <Section bottom="small" textSize="small">
         * Aplicația rulează doar în browser și nu colectează datele personale ale utilizatorului.
+      </Section>
+
+      <Section bottom="initial" textSize="small">
+        Un proiect de <Link href="https://github.com/vtemian" target="_blank">Vlad Temian</Link>
+        , <Link href="https://balajmarius.com" target="_blank">Marius Bălaj</Link>
+        , <Link href="https://www.linkedin.com/in/mihai-grescenko-1730ab130" target="_blank">Desero</Link>.
       </Section>
     </Wrapper>
   );
