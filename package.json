@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "date-format": "^3.0.0",
     "@react-pdf/renderer": "^1.6.8",
+    "date-format": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-input-autosize": "^2.2.2",
     "react-scripts": "3.4.1",
+    "react-signature-canvas": "^1.0.3",
     "styled-components": "^5.0.1"
   },
   "scripts": {

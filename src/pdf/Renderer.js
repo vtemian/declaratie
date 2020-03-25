@@ -1,6 +1,6 @@
 import React from "react";
 import format from "date-format";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import { Page, Text, View, Document, Image, StyleSheet } from "@react-pdf/renderer";
 
 import { color, fontFamily } from "../helpers/constants";
 
@@ -46,12 +46,10 @@ const styles = StyleSheet.create({
   },
   signature: {
     width: "150pt",
-    marginTop: "10pt",
-    borderBottom: `1pt solid ${color.black}`,
   },
 });
 
-function Renderer({ form }) {
+function Renderer({ form, signature }) {
   const canSeeDomiciliu = form?.domiciliu_localitate && form?.domiciliu_judet && form?.domiciliu_strada;
 
   return (
@@ -169,7 +167,9 @@ function Renderer({ form }) {
           </View>
           <View>
             <Text style={styles.text}>Semnatura</Text>
-            <View style={styles.signature} />
+            <View style={styles.signature} >
+              <Image src={signature} />
+            </View>
           </View>
         </View>
       </Page>
