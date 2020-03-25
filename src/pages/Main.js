@@ -4,7 +4,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import { useSetState } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
-import downloadPDF from "../helpers/utils"
+import downloadPDF from "../helpers/utils";
 
 import Link from "../components/Link";
 import Title from "../components/Title";
@@ -51,38 +51,40 @@ const CSSReset = createGlobalStyle`
 function Main() {
   const [isGenerated, setIsGenerated] = useState(false);
 
+  const previousValues = JSON.parse(localStorage.getItem("values"));
+
   const [form, setForm] = useSetState({
-    nume: undefined,
-    nume_tata: undefined,
-    nume_mama: undefined,
-    adresa_localitate: undefined,
-    adresa_judet: undefined,
-    adresa_strada: undefined,
-    adresa_numar: undefined,
-    adresa_bloc: undefined,
-    adresa_etaj: undefined,
-    adresa_apartament: undefined,
-    cnp: undefined,
-    ci_seria: undefined,
-    ci_numar: undefined,
-    domiciliu_localitate: undefined,
-    domiciliu_judet: undefined,
-    domiciliu_strada: undefined,
-    domiciliu_numar: undefined,
-    domiciliu_bloc: undefined,
-    domiciliu_etaj: undefined,
-    domiciliu_apartament: undefined,
-    interval_orar: undefined,
-    traseu_start: undefined,
-    traseu_sfarsit: undefined,
-    situatie_urgenta: undefined,
-    deplasare_servici: false,
-    deplasare_consult: false,
-    deplasare_cumparaturi: false,
-    deplasare_ajutor: false,
-    deplasare_scurta: false,
-    deplasare_animale: false,
-    deplasare_urgenta: false,
+    nume: previousValues?.nume,
+    nume_tata: previousValues?.nume_tata,
+    nume_mama: previousValues?.nume_mama,
+    adresa_localitate: previousValues?.adresa_localitate,
+    adresa_judet: previousValues?.adresa_judet,
+    adresa_strada: previousValues?.adresa_strada,
+    adresa_numar: previousValues?.adresa_numar,
+    adresa_bloc: previousValues?.adresa_bloc,
+    adresa_etaj: previousValues?.adresa_etaj,
+    adresa_apartament: previousValues?.adresa_apartament,
+    cnp: previousValues?.cnp,
+    ci_seria: previousValues?.ci_seria,
+    ci_numar: previousValues?.ci_numar,
+    domiciliu_localitate: previousValues?.domiciliu_localitate,
+    domiciliu_judet: previousValues?.domiciliu_judet,
+    domiciliu_strada: previousValues?.domiciliu_strada,
+    domiciliu_numar: previousValues?.domiciliu_numar,
+    domiciliu_bloc: previousValues?.domiciliu_bloc,
+    domiciliu_etaj: previousValues?.domiciliu_etaj,
+    domiciliu_apartament: previousValues?.domiciliu_apartament,
+    interval_orar: previousValues?.interval_orar,
+    traseu_start: previousValues?.traseu_start,
+    traseu_sfarsit: previousValues?.traseu_sfarsit,
+    situatie_urgenta: previousValues?.situatie_urgenta,
+    deplasare_servici: previousValues?.deplasare_servici,
+    deplasare_consult: previousValues?.deplasare_consult,
+    deplasare_cumparaturi: previousValues?.deplasare_cumparaturi,
+    deplasare_ajutor: previousValues?.deplasare_ajutor,
+    deplasare_scurta: previousValues?.deplasare_scurta,
+    deplasare_animale: previousValues?.deplasare_animale,
+    deplasare_urgenta: previousValues?.deplasare_urgenta,
   });
 
   const onChange = ({ target }) => {
@@ -95,6 +97,10 @@ function Main() {
     setForm({
       [target.name]: target.checked,
     });
+  };
+
+  const saveToLocalStorage = form => {
+    localStorage.setItem("values", JSON.stringify(form));
   };
 
   return (
@@ -176,7 +182,10 @@ function Main() {
 
         {isGenerated ? (
           <PDFDownloadLink document={<Renderer form={form} />} fileName="declaratie_proprie_raspundere.pdf">
-            {({ url }) => url && downloadPDF(url) && setIsGenerated(false) }
+            {({ url }) => {
+              saveToLocalStorage(form);
+              url && window.location.assign(url);
+            }}
           </PDFDownloadLink>
         ) : null}
       </Section>
@@ -190,9 +199,19 @@ function Main() {
       </Section>
 
       <Section bottom="initial" textSize="small">
-        Un proiect de <Link href="https://github.com/vtemian" target="_blank">Vlad Temian</Link>
-        , <Link href="https://balajmarius.com" target="_blank">Marius Bălaj</Link>
-        , <Link href="https://www.linkedin.com/in/mihai-grescenko-1730ab130" target="_blank">Mihai Grescenko</Link>.
+        Un proiect de{" "}
+        <Link href="https://github.com/vtemian" target="_blank">
+          Vlad Temian
+        </Link>
+        ,{" "}
+        <Link href="https://balajmarius.com" target="_blank">
+          Marius Bălaj
+        </Link>
+        ,{" "}
+        <Link href="https://www.linkedin.com/in/mihai-grescenko-1730ab130" target="_blank">
+          Mihai Grescenko
+        </Link>
+        .
       </Section>
     </Wrapper>
   );
