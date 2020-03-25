@@ -167,9 +167,9 @@ function Renderer({ form }) {
           </View>
           <View>
             <Text style={styles.text}>Semnatura</Text>
-              <View style={styles.signature} >
-                {form.signature && <Image src={form.signature} />}
-              </View>
+            <View style={styles.signature} >
+              {form.signature && <Image src={form.signature} />}
+            </View>
           </View>
         </View>
       </Page>
