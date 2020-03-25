@@ -3,15 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@react-pdf/renderer": "^1.6.8",
-    "@react-pdf/styled-components": "^1.4.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-input-autosize": "^2.2.2",
-    "react-pdfjs": "^1.0.7",
     "react-scripts": "3.4.1",
     "styled-components": "^5.0.1"
   },
