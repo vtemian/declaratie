@@ -153,7 +153,7 @@ function Renderer({ form }) {
             <View style={[styles.checkbox, form?.deplasare_urgenta && styles.checked]} />
             <Text style={styles.text}>
               Deplasare pentru rezolvarea următoarei situații urgente:
-              <Text style={styles.textBold}> {form?.situatie_urgenta ?? defaultText}</Text>.
+              <Text style={styles.textBold}> {form?.situatie_urgenta}</Text>.
             </Text>
           </View>
         </View>
