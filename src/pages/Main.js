@@ -9,7 +9,7 @@ import downloadPDF from "../helpers/utils";
 
 import Link from "../components/Link";
 import Title from "../components/Title";
-import Button from "../components/Button";
+import { Button, LightButton } from "../components/Button";
 import Wrapper from "../components/Wrapper";
 import Section from "../components/Section";
 import TextField from "../components/TextField";
@@ -53,7 +53,7 @@ const CSSReset = createGlobalStyle`
 
 function Main() {
   const [isGenerated, setIsGenerated] = useState(false);
-  const [canvasWidth, setCanvasWidth] = useState(Math.min(window.screen.width, 760));
+  const [canvasSize, setCanvasSize] = useState({width: Math.min(window.screen.width, 760), height: 200});
 
   const emptyValues = {
     nume: undefined,
@@ -87,6 +87,7 @@ function Main() {
     deplasare_scurta: false,
     deplasare_animale: false,
     deplasare_urgenta: false,
+    signature: null,
   };
 
   const [initialValues, saveFormValues] = useLocalStorage('cachedForm', emptyValues);
@@ -110,13 +111,21 @@ function Main() {
 
   useEffect(() => {
     const onResizeWindow =() => {
-      setCanvasWidth(window.screen.width);
+      setCanvasSize({width: Math.min(window.screen.width, 760), height: canvasSize.height});
     };
     window.addEventListener('resize', onResizeWindow);
     return () => window.removeEventListener('resize', onResizeWindow)
   }, [])
 
-  const signature = useRef();
+  let signatureRef = useRef();
+  useEffect(() => {
+    signatureRef.fromDataURL(form.signature, canvasSize);
+  });
+
+  const onClearSignature = () => {
+    signatureRef.clear();
+    setForm({signature: null});
+  };
 
   return (
     <Wrapper>
@@ -192,23 +201,26 @@ function Main() {
         </CheckboxLabel>
       </Section>
 
-      <Section>
+      <Section bottom="extrasmall">
         Semnatura
         <Signature>
           <SignatureCanvas
             penColor={color.black}
-            ref={signature}
-            canvasProps={{width: canvasWidth, height: 200}}
+            onEnd={(e) => setForm({signature: signatureRef.toDataURL()})}
+            ref={(ref) => signatureRef = ref}
+            canvasProps={canvasSize}
           />
         </Signature>
-
+      </Section>
+      <Section>
+        <LightButton onClick={onClearSignature}>Șterge semnătura</LightButton>
       </Section>
 
       <Section align="center">
         <Button onClick={() => setIsGenerated(true)}>Descarcă PDF</Button>
 
         {isGenerated ? (
-          <PDFDownloadLink document={<Renderer form={form} signature={signature?.current?.toDataURL()} />}
+          <PDFDownloadLink document={<Renderer form={form} />}
                            fileName="declaratie_proprie_raspundere.pdf">
             {({ url }) => {
               url && downloadPDF(url) && setIsGenerated(false);
