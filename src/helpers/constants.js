@@ -38,5 +38,3 @@ export const fontWeight = {
   regular: 400,
   bold: 600,
 };
-
-export const defaultText = "*********";
