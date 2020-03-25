@@ -17,7 +17,7 @@ const LightButton = styled.button`
   background-color: ${color.white};
   border: 1px solid ${color.black};
   cursor: pointer;
-  padding: ${spacing.extrasmall} ${spacing.small};
+  padding: ${spacing.extraSmall} ${spacing.small};
   border-radius: ${borderRadius.small};
   font-size: ${fontSize.medium};
   &:hover{

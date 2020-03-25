@@ -51,9 +51,17 @@ const CSSReset = createGlobalStyle`
   }
 `;
 
+const CANVAS_SIZE = {
+  maxWidth: 760,
+  maxHeight: 200,
+};
+
 function Main() {
   const [isGenerated, setIsGenerated] = useState(false);
-  const [canvasSize, setCanvasSize] = useState({width: Math.min(window.screen.width, 760), height: 200});
+  const [canvasSize, setCanvasSize] = useState({
+    width: Math.min(window.screen.width, CANVAS_SIZE.maxWidth), 
+    height: CANVAS_SIZE.maxHeight,
+  });
 
   const emptyValues = {
     nume: undefined,
@@ -111,7 +119,10 @@ function Main() {
 
   useEffect(() => {
     const onResizeWindow =() => {
-      setCanvasSize({width: Math.min(window.screen.width, 760), height: canvasSize.height});
+      setCanvasSize({
+        width: Math.min(window.screen.width, CANVAS_SIZE.maxWidth), 
+        height: CANVAS_SIZE.maxHeight,
+      });
     };
     window.addEventListener('resize', onResizeWindow);
     return () => window.removeEventListener('resize', onResizeWindow)
@@ -201,7 +212,7 @@ function Main() {
         </CheckboxLabel>
       </Section>
 
-      <Section bottom="extrasmall">
+      <Section bottom="extraSmall">
         Semnatura
         <Signature>
           <SignatureCanvas
