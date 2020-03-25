@@ -53,6 +53,7 @@ const CSSReset = createGlobalStyle`
 
 function Main() {
   const [isGenerated, setIsGenerated] = useState(false);
+  const [canvasWidth, setCanvasWidth] = useState(Math.min(window.screen.width, 760));
 
   const emptyValues = {
     nume: undefined,
@@ -106,6 +107,14 @@ function Main() {
       [target.name]: target.checked,
     });
   };
+
+  useEffect(() => {
+    const onResizeWindow =() => {
+      setCanvasWidth(window.screen.width);
+    };
+    window.addEventListener('resize', onResizeWindow);
+    return () => window.removeEventListener('resize', onResizeWindow)
+  }, [])
 
   const signature = useRef();
 
@@ -189,7 +198,7 @@ function Main() {
           <SignatureCanvas
             penColor={color.black}
             ref={signature}
-            canvasProps={{width: 760, height: 200}}
+            canvasProps={{width: canvasWidth, height: 200}}
           />
         </Signature>
 
