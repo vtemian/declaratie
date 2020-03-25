@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
 });
 
 function Renderer({ form }) {
+  const canSeeDomiciliu = form?.domiciliu_localitate && form?.domiciliu_judet && form?.domiciliu_strada;
+
   return (
     <Document>
       <Page style={styles.page}>
@@ -77,18 +79,20 @@ function Renderer({ form }) {
           </Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.text}>
-            Locuind în fapt în localitatea
-            <Text style={styles.textBold}> {form?.domiciliu_localitate ?? defaultText}</Text>, județul/sectorul
-            <Text style={styles.textBold}> {form?.domiciliu_judet ?? defaultText}</Text>, strada
-            <Text style={styles.textBold}> {form?.domiciliu_strada ?? defaultText}</Text>, număr
-            <Text style={styles.textBold}> {form?.domiciliu_numar ?? defaultText}</Text>, bloc
-            <Text style={styles.textBold}> {form?.domiciliu_bloc ?? defaultText}</Text>, etaj
-            <Text style={styles.textBold}> {form?.domiciliu_etaj ?? defaultText}</Text>, apartament
-            <Text style={styles.textBold}> {form?.domiciliu_apartament ?? defaultText}</Text>.
-          </Text>
-        </View>
+        {canSeeDomiciliu ? (
+          <View style={styles.section}>
+            <Text style={styles.text}>
+              Locuind în fapt în localitatea
+              <Text style={styles.textBold}> {form?.domiciliu_localitate}</Text>, județul/sectorul
+              <Text style={styles.textBold}> {form?.domiciliu_judet}</Text>, strada
+              <Text style={styles.textBold}> {form?.domiciliu_strada}</Text>, număr
+              <Text style={styles.textBold}> {form?.domiciliu_numar}</Text>, bloc
+              <Text style={styles.textBold}> {form?.domiciliu_bloc}</Text>, etaj
+              <Text style={styles.textBold}> {form?.domiciliu_etaj}</Text>, apartament
+              <Text style={styles.textBold}> {form?.domiciliu_apartament}</Text>.
+            </Text>
+          </View>
+        ) : null}
 
         <View style={styles.section}>
           <Text style={styles.text}>
