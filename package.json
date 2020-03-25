@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@react-pdf/renderer": "^1.6.8",
+    "@rehooks/local-storage": "^2.3.0",
     "date-format": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
