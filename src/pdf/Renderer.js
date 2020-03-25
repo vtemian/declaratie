@@ -2,7 +2,7 @@ import React from "react";
 import format from "date-format";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 
-import { color, fontFamily, defaultText } from "../helpers/constants";
+import { color, fontFamily } from "../helpers/constants";
 
 const styles = StyleSheet.create({
   page: {
