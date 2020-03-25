@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function Renderer({ form, signature }) {
+function Renderer({ form }) {
   const canSeeDomiciliu = form?.domiciliu_localitate && form?.domiciliu_judet && form?.domiciliu_strada;
 
   return (
@@ -167,9 +167,9 @@ function Renderer({ form, signature }) {
           </View>
           <View>
             <Text style={styles.text}>Semnatura</Text>
-            <View style={styles.signature} >
-              <Image src={signature} />
-            </View>
+              <View style={styles.signature} >
+                {form.signature && <Image src={form.signature} />}
+              </View>
           </View>
         </View>
       </Page>
