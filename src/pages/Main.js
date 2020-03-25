@@ -191,7 +191,7 @@ function Main() {
       <Section bottom="initial" textSize="small">
         Un proiect de <Link href="https://github.com/vtemian" target="_blank">Vlad Temian</Link>
         , <Link href="https://balajmarius.com" target="_blank">Marius Bălaj</Link>
-        , <Link href="https://www.linkedin.com/in/mihai-grescenko-1730ab130" target="_blank">Desero</Link>.
+        , <Link href="https://www.linkedin.com/in/mihai-grescenko-1730ab130" target="_blank">Mihai Grescenko</Link>.
       </Section>
     </Wrapper>
   );
