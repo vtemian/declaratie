@@ -4,6 +4,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import { useSetState } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
+import downloadPDF from "../helpers/utils"
 
 import Link from "../components/Link";
 import Title from "../components/Title";
@@ -171,11 +172,11 @@ function Main() {
       </Section>
 
       <Section align="center">
-        <Button onClick={setIsGenerated}>Descarcă PDF</Button>
+        <Button onClick={() => setIsGenerated(true)}>Descarcă PDF</Button>
 
         {isGenerated ? (
           <PDFDownloadLink document={<Renderer form={form} />} fileName="declaratie_proprie_raspundere.pdf">
-            {({ url }) => url && window.location.assign(url)}
+            {({ url }) => url && downloadPDF(url) && setIsGenerated(false) }
           </PDFDownloadLink>
         ) : null}
       </Section>
