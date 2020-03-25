@@ -105,6 +105,7 @@ function Main() {
   const saveToLocalStorage = form => {
     localStorage.setItem("values", JSON.stringify(form));
   };
+
   const signature = useRef();
 
   return (
@@ -197,7 +198,8 @@ function Main() {
         <Button onClick={() => setIsGenerated(true)}>Descarcă PDF</Button>
 
         {isGenerated ? (
-          <PDFDownloadLink document={<Renderer form={form} />} fileName="declaratie_proprie_raspundere.pdf">
+          <PDFDownloadLink document={<Renderer form={form} signature={signature?.current?.toDataURL()} />}
+                           fileName="declaratie_proprie_raspundere.pdf">
             {({ url }) => {
               saveToLocalStorage(form);
               url && downloadPDF(url) && setIsGenerated(false);
