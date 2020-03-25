@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { createGlobalStyle } from "styled-components";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import SignatureCanvas from 'react-signature-canvas'
 
 import { useSetState } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
@@ -13,6 +14,8 @@ import Wrapper from "../components/Wrapper";
 import Section from "../components/Section";
 import TextField from "../components/TextField";
 import CheckboxLabel from "../components/CheckboxLabel";
+import Signature from "../components/Signature";
+
 import Renderer from "../pdf/Renderer";
 
 const CSSReset = createGlobalStyle`
@@ -102,6 +105,7 @@ function Main() {
   const saveToLocalStorage = form => {
     localStorage.setItem("values", JSON.stringify(form));
   };
+  const signature = useRef();
 
   return (
     <Wrapper>
@@ -177,6 +181,18 @@ function Main() {
         </CheckboxLabel>
       </Section>
 
+      <Section>
+        Semnatura
+        <Signature>
+          <SignatureCanvas
+            penColor={color.black}
+            ref={signature}
+            canvasProps={{width: 760, height: 200}}
+          />
+        </Signature>
+
+      </Section>
+
       <Section align="center">
         <Button onClick={() => setIsGenerated(true)}>Descarcă PDF</Button>
 
@@ -184,7 +200,7 @@ function Main() {
           <PDFDownloadLink document={<Renderer form={form} />} fileName="declaratie_proprie_raspundere.pdf">
             {({ url }) => {
               saveToLocalStorage(form);
-              url && window.location.assign(url);
+              url && downloadPDF(url) && setIsGenerated(false);
             }}
           </PDFDownloadLink>
         ) : null}
