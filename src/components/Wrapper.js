@@ -1,11 +1,10 @@
 import styled from "styled-components";
 
+import { spacing } from "../helpers/constants";
+
 const Wrapper = styled.section`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
   max-width: 760px;
-  margin: 65px auto;
+  margin: ${spacing.large} auto;
 `;
 
 export default Wrapper;

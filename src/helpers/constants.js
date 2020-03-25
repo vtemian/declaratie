@@ -4,10 +4,10 @@ export const color = {
 };
 
 export const spacing = {
-  initial: "initial",
   small: "15px",
   medium: "35px",
   large: "65px",
+  initial: "initial",
 };
 
 export const width = {
@@ -27,10 +27,10 @@ export const fontFamily = {
 };
 
 export const fontSize = {
-  tiny: "12px",
-  small: "16px",
-  medium: "18px",
-  large: "64px",
+  small: "12px",
+  medium: "16px",
+  large: "18px",
+  huge: "64px",
 };
 
 export const fontWeight = {

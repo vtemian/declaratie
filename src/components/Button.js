@@ -6,7 +6,7 @@ const Button = styled.button`
   cursor: pointer;
   color: ${color.white};
   font-family: ${fontFamily.sansSerif};
-  font-size: ${fontSize.medium};
+  font-size: ${fontSize.large};
   background-color: ${color.black};
   border-radius: ${borderRadius.large};
   padding: ${spacing.small} ${spacing.large};

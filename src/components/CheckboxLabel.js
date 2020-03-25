@@ -4,15 +4,15 @@ import styled from "styled-components";
 
 import { color, spacing } from "../helpers/constants";
 
+const Input = styled.input`
+  visibility: hidden;
+  position: absolute;
+`;
+
 const Label = styled.label`
   display: block;
   cursor: pointer;
   margin-bottom: ${spacing.small};
-`;
-
-const Input = styled.input`
-  visibility: hidden;
-  position: absolute;
 `;
 
 const Checkbox = styled.span`
@@ -24,7 +24,7 @@ const Checkbox = styled.span`
   background-color: ${({ checked }) => (checked ? color.black : color.white)};
 `;
 
-function Urgency({ children, name, checked, onCheck }) {
+function CheckboxLabel({ children, name, checked, onCheck }) {
   return (
     <Label>
       <Checkbox checked={checked} />
@@ -34,10 +34,11 @@ function Urgency({ children, name, checked, onCheck }) {
   );
 }
 
-Urgency.propTypes = {
+CheckboxLabel.propTypes = {
   name: PropTypes.string,
   checked: PropTypes.bool,
+  children: PropTypes.node,
   onCheck: PropTypes.func,
 };
 
-export default Urgency;
+export default CheckboxLabel;

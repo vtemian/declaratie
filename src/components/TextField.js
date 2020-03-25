@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { color, width, fontWeight, borderRadius } from "../helpers/constants";
 
-const Input = styled(AutosizeInput)`
+const TextField = styled(AutosizeInput)`
   margin: 0 2px 0 5px;
   input {
     padding: 5px 10px;
@@ -16,12 +16,12 @@ const Input = styled(AutosizeInput)`
   }
 `;
 
-Input.propTypes = {
+TextField.propTypes = {
   size: PropTypes.oneOf(["small", "medium", "large"]),
 };
 
-Input.defaultProps = {
+TextField.defaultProps = {
   size: "medium",
 };
 
-export default Input;
+export default TextField;
