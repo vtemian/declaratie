@@ -1,13 +1,9 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { createGlobalStyle } from "styled-components";
-import { pdf } from "@react-pdf/renderer";
-import SignatureCanvas from "react-signature-canvas";
-import FileSaver from "file-saver";
-
-import { useEffect, useLocalStorage } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
 
 import Text from "../components/Text";
+import Link from "../components/Link";
 import Grid from "../components/Grid";
 import TextField from "../components/TextField";
 import Wrapper from "../components/Wrapper";
