@@ -7,6 +7,7 @@ import Link from "../components/Link";
 import Grid from "../components/Grid";
 import TextField from "../components/TextField";
 import Wrapper from "../components/Wrapper";
+import CheckboxLabel from "../components/CheckboxLabel";
 import Section from "../components/Section";
 
 const CSSReset = createGlobalStyle`
@@ -96,12 +97,67 @@ function Main() {
       <Section bottom="small">
         <Grid align="flex-start" columns="1fr" rows="1fr 1fr 1fr">
           <Text weight="bold">Locul/locurile deplasării:</Text>
-          <TextField name="motiv_deplasare" />
+          <TextField name="loc_deplasare" />
           <Text size="small">
             Se vor menționa locurile în care persoana se deplasează, în ordinea în care aceasta intenționează să-și
             desfășoare traseul.
           </Text>
         </Grid>
+      </Section>
+
+      <Section bottom="small">
+        <Text weight="bold">Motivul deplasarii:</Text>
+
+        <CheckboxLabel name="deplasare_servici">
+          Interes profesional, inclusiv între locuință/gospodărie și locul/locurile de desfășurare a
+          activității profesionale și înapoi.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_bunuri">
+          Asigurarea de bunuri care acoperă necesitățile de bază ale persoanelor și animalelor de
+          companie/domestice.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_medicala">
+          Asistență medicală care nu poate fi amânată și nici realizată de la distanță.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_ingrijire">
+          Motive justificate, precum îngrijirea/ însoțirea unui minor/copilului, asistența persoanelor
+          vârstnice, bolnave sau cu dizabilități ori deces al unui membru de familie.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_sport">
+          Activitate fizică individuală (cu excluderea oricăror activități sportive de echipă/ colective)
+          sau pentru nevoile animalelor de companie/domestice, în apropierea locuinței.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_agricola">
+          Realizarea de activități agricole
+          <TextField size="large" name="activitati_agricole" />.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_sange">
+          Donarea de sânge, la centrele de transfuzie sanguină
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_voluntariat">
+          Scopuri umanitare sau de voluntariat.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_legume">
+          Comercializarea de produse agroalimentare (în cazul producătorilor agricoli).
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_bunuri_servici">
+          Asigurarea de bunuri necesare desfășurării activității profesionale.
+        </CheckboxLabel>
+
+        <Text>
+          Se va bifa doar motivul/motivele deplasării dintre cele prevăzute în listă, nefiind permise deplasări realizate invocând
+          alte motive decât cele prevăzute în Ordonanța Militară nr. 3/2020
+        </Text>
+
       </Section>
 
       <Section>
