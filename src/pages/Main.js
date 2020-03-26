@@ -1,23 +1,14 @@
-import React, { useState, useRef } from "react";
-import { Formik, Form } from "formik";
+import React from "react";
 import { createGlobalStyle } from "styled-components";
-import { pdf } from "@react-pdf/renderer";
-import SignatureCanvas from "react-signature-canvas";
-import FileSaver from "file-saver";
-
-import { useEffect, useLocalStorage } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
 
+import Text from "../components/Text";
 import Link from "../components/Link";
-import Title from "../components/Title";
-import { Button, LightButton } from "../components/Button";
+import Grid from "../components/Grid";
+import TextField from "../components/TextField";
 import Wrapper from "../components/Wrapper";
+import CheckboxLabel from "../components/CheckboxLabel";
 import Section from "../components/Section";
-import Signature from "../components/Signature";
-import { FTF, FCK } from "../components/FormControls";
-import { schema } from "../helpers/validator";
-
-import Renderer from "../pdf/Renderer";
 
 const CSSReset = createGlobalStyle`
   html, body, p, ol, ul, li, hr, h1, h2, h3, h4, h5, h6 {
@@ -52,73 +43,7 @@ const CSSReset = createGlobalStyle`
   }
 `;
 
-const CANVAS_SIZE = {
-  maxWidth: 760,
-  maxHeight: 200,
-};
-
 function Main() {
-  const [canvasSize, setCanvasSize] = useState({
-    width: Math.min(window.screen.width, CANVAS_SIZE.maxWidth),
-    height: CANVAS_SIZE.maxHeight,
-  });
-
-  const emptyValues = {
-    nume: "",
-    nume_tata: "",
-    nume_mama: "",
-    adresa_localitate: "",
-    adresa_judet: "",
-    adresa_strada: "",
-    adresa_numar: "",
-    adresa_bloc: "",
-    adresa_etaj: "",
-    adresa_apartament: "",
-    cnp: "",
-    ci_seria: "",
-    ci_numar: "",
-    domiciliu_localitate: "",
-    domiciliu_judet: "",
-    domiciliu_strada: "",
-    domiciliu_numar: "",
-    domiciliu_bloc: "",
-    domiciliu_etaj: "",
-    domiciliu_apartament: "",
-    interval_orar: "",
-    traseu_start: "",
-    traseu_sfarsit: "",
-    situatie_urgenta: "",
-    deplasare_servici: false,
-    deplasare_consult: false,
-    deplasare_cumparaturi: false,
-    deplasare_ajutor: false,
-    deplasare_scurta: false,
-    deplasare_animale: false,
-    deplasare_urgenta: false,
-    checkboxes_are_valid: false,
-    signature: null,
-  };
-
-  const [initialValues, saveFormValues] = useLocalStorage("cachedForm", emptyValues);
-
-  useEffect(() => {
-    const onResizeWindow = () => {
-      setCanvasSize({
-        width: Math.min(window.screen.width, CANVAS_SIZE.maxWidth),
-        height: CANVAS_SIZE.maxHeight,
-      });
-    };
-    window.addEventListener("resize", onResizeWindow);
-    return () => window.removeEventListener("resize", onResizeWindow);
-  }, []);
-
-  let signatureRef = useRef();
-
-  const onClearSignature = (setFieldValue) => {
-    signatureRef.clear();
-    setFieldValue('signature', undefined);
-  };
-
   return (
     <Wrapper>
       <CSSReset />
@@ -135,130 +60,111 @@ function Main() {
       </Section>
 
       <Section align="center">
-        <Title>declarație.ro</Title>
+        <Text size="medium" weight="bold" uppercase>
+          Declarație pe proprie răspundere,
+        </Text>
       </Section>
 
-      <Formik
-        initialValues={{ ...emptyValues, ...initialValues }}
-        validationSchema={schema}
-        onSubmit={async (values, errors) => {
-          saveFormValues(values);
-          const blob = await pdf(<Renderer form={values} />).toBlob();
-          FileSaver.saveAs(blob, "declaratie_propie_raspundere.pdf");
-        }}
-      >
-        {({ errors, touched, values, setFieldValue }) => (
-          <Form>
-            <Section>Declarație pe proprie răspundere,</Section>
-
-            <Section bottom="medium">
-              Subsemnatul(a)
-              <FTF name="nume" />, fiul/fiica lui
-              <FTF name="nume_tata" /> și al
-              <FTF name="nume_mama" />, domiciliat(ă) în
-              <FTF name="adresa_localitate" />, județul/sectorul
-              <FTF name="adresa_judet" />, strada
-              <FTF name="adresa_strada" />, număr
-              <FTF size="small" name="adresa_numar" />, bloc
-              <FTF size="small" name="adresa_bloc" />, etaj
-              <FTF size="small" name="adresa_etaj" />, apartament
-              <FTF size="small" name="adresa_apartament" />, având CNP <FTF name="cnp" />, BI/CI seria
-              <FTF size="small" name="ci_seria" />, număr
-              <FTF name="ci_numar" />.
-            </Section>
-
-            <Section>
-              Locuind în fapt în localitatea
-              <FTF name="domiciliu_localitate" />
-              , județul/sectorul <FTF name="domiciliu_judet" />
-              , strada <FTF name="domiciliu_strada" />, număr
-              <FTF size="small" name="domiciliu_numar" />, bloc
-              <FTF size="small" name="domiciliu_bloc" />, etaj
-              <FTF size="small" name="domiciliu_etaj" />, apartament
-              <FTF size="small" name="domiciliu_apartament" />.
-            </Section>
-
-            <Section bottom="medium">
-              Cunoscând prevederile articolului 326, referitoare la falsul în declarații precum și ale art. 352
-              referitoare la zădărnicirea combaterii bolilor din Noul Cod Penal, declar pe proprie răspundere faptul că
-              mă deplasez în interes profesional/personal, între orele
-              <FTF name="interval_orar" />, de la
-              <FTF size="large" name="traseu_start" />, până la
-              <FTF size="large" name="traseu_sfarsit" /> pentru:
-            </Section>
-
-            <Section>
-              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_servici">
-                Deplasarea între domiciliu și locul de muncă, atunci când activitatea profesională este esențială și nu
-                poate fi organizată sub formă de lucru la distanță sau deplasarea în interes profesional care nu poate
-                fi amânată.
-              </FCK>
-              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_consult">
-                Consult medical de specialitate care nu poate fi amânat.
-              </FCK>
-              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_cumparaturi">
-                Deplasare pentru cumpărături de primă necesitate la unități comerciale din zona de domiciliu.
-              </FCK>
-              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_ajutor">
-                Deplasare pentru asigurarea asistenței pentru persoane în vârstă, vulnerabile sau pentru însoțirea
-                copiilor.
-              </FCK>
-              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_scurta">
-                Deplasare scurtă, lângă domiciliu, pentru desfășurarea de activități fizice individuale, în aer liber,
-                cu excluderea oricărei forme de activitate sportivă colectivă.
-              </FCK>
-              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_animale">
-                Deplasare scurtă, lângă domiciliu, legată de nevoile animalelor de companie.
-              </FCK>
-              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_urgenta">
-                Deplasare pentru rezolvarea următoarei situații urgente:
-                <FTF size="large" name="situatie_urgenta" />.
-              </FCK>
-            </Section>
-
-            <Section bottom="extraSmall">
-              Semnatura
-              <Signature>
-                <SignatureCanvas
-                  penColor={color.black}
-                  onEnd={e => setFieldValue('signature', signatureRef.toDataURL())}
-                  ref={ref => (signatureRef = ref)}
-                  canvasProps={canvasSize}
-                />
-              </Signature>
-            </Section>
-            <Section>
-              <LightButton type="button" onClick={() => onClearSignature(setFieldValue)}>Șterge semnătura</LightButton>
-            </Section>
-            <Section align="center">
-              <Button type="submit">Descarcă PDF</Button>
-            </Section>
-          </Form>
-        )}
-      </Formik>
-
-      <Section bottom="small" textSize="small">
-        * Nu ne asumăm responsabilatea pentru corectitudinea, integralitatea și actualitatea informațiilor furnizate pe
-        acest site sau pentru daunele rezultate din utilizarea sau neutilizarea lui.
-      </Section>
-      <Section bottom="small" textSize="small">
-        * Aplicația rulează doar în browser și nu colectează datele personale ale utilizatorului.
+      <Section bottom="small">
+        <Grid columns="1fr 2fr 2fr">
+          <Text weight="bold">Nume, prenume:</Text>
+          <TextField name="nume" />
+          <TextField name="prenume" />
+        </Grid>
       </Section>
 
-      <Section bottom="initial" textSize="small">
-        Un proiect de{" "}
-        <Link href="https://github.com/vtemian" target="_blank">
-          Vlad Temian
-        </Link>
-        ,{" "}
-        <Link href="https://balajmarius.com" target="_blank">
-          Marius Bălaj
-        </Link>
-        ,{" "}
-        <Link href="https://www.linkedin.com/in/mihai-grescenko-1730ab130" target="_blank">
-          Mihai Grescenko
-        </Link>
-        .
+      <Section bottom="small">
+        <Grid columns="1fr 4fr">
+          <Text weight="bold">Data nașterii:</Text>
+          <TextField name="data_nasterii" type="date" />
+        </Grid>
+      </Section>
+
+      <Section bottom="small">
+        <Grid columns="1fr 4fr">
+          <Text weight="bold">Adresa locuinței:</Text>
+          <Grid align="flex-start" rows="1fr 1fr 1fr">
+            <TextField name="adresa_1" />
+            <TextField name="adresa_2" />
+            <Text size="small">
+              Se va completa adresa locuinței în care persoana locuiește în fapt, indiferent dacă este identică sau nu
+              cu cea menționată în actul de identitate.
+            </Text>
+          </Grid>
+        </Grid>
+      </Section>
+
+      <Section bottom="small">
+        <Grid align="flex-start" columns="1fr" rows="1fr 1fr 1fr">
+          <Text weight="bold">Locul/locurile deplasării:</Text>
+          <TextField name="loc_deplasare" />
+          <Text size="small">
+            Se vor menționa locurile în care persoana se deplasează, în ordinea în care aceasta intenționează să-și
+            desfășoare traseul.
+          </Text>
+        </Grid>
+      </Section>
+
+      <Section bottom="small">
+        <Text weight="bold">Motivul deplasarii:</Text>
+
+        <CheckboxLabel name="deplasare_servici">
+          Interes profesional, inclusiv între locuință/gospodărie și locul/locurile de desfășurare a
+          activității profesionale și înapoi.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_bunuri">
+          Asigurarea de bunuri care acoperă necesitățile de bază ale persoanelor și animalelor de
+          companie/domestice.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_medicala">
+          Asistență medicală care nu poate fi amânată și nici realizată de la distanță.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_ingrijire">
+          Motive justificate, precum îngrijirea/ însoțirea unui minor/copilului, asistența persoanelor
+          vârstnice, bolnave sau cu dizabilități ori deces al unui membru de familie.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_sport">
+          Activitate fizică individuală (cu excluderea oricăror activități sportive de echipă/ colective)
+          sau pentru nevoile animalelor de companie/domestice, în apropierea locuinței.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_agricola">
+          Realizarea de activități agricole
+          <TextField size="large" name="activitati_agricole" />.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_sange">
+          Donarea de sânge, la centrele de transfuzie sanguină
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_voluntariat">
+          Scopuri umanitare sau de voluntariat.
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_legume">
+          Comercializarea de produse agroalimentare (în cazul producătorilor agricoli).
+        </CheckboxLabel>
+
+        <CheckboxLabel name="deplasare_bunuri_servici">
+          Asigurarea de bunuri necesare desfășurării activității profesionale.
+        </CheckboxLabel>
+
+        <Text>
+          Se va bifa doar motivul/motivele deplasării dintre cele prevăzute în listă, nefiind permise deplasări realizate invocând
+          alte motive decât cele prevăzute în Ordonanța Militară nr. 3/2020
+        </Text>
+
+      </Section>
+
+      <Section>
+        <Text size="small" weight="bold">
+          Persoanele care au împlinit vârsta de 65 de ani completează doar pentru motivele prevăzute în câmpurile 1-6,
+          deplasarea fiind permisă zilnic doar în intervalul orar 11.00 – 13.00.
+        </Text>
       </Section>
     </Wrapper>
   );
