@@ -6,12 +6,15 @@
     "@react-pdf/renderer": "^1.6.8",
     "@rehooks/local-storage": "^2.3.0",
     "date-format": "^3.0.0",
+    "file-saver": "^2.0.2",
+    "formik": "^2.1.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-input-autosize": "^2.2.2",
     "react-scripts": "3.4.1",
     "react-signature-canvas": "^1.0.3",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "yup": "^0.28.3"
   },
   "scripts": {
     "start": "react-scripts start",

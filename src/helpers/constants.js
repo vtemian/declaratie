@@ -1,6 +1,7 @@
 export const color = {
   white: "#ffffff",
   black: "#000000",
+  red: "#FF0000"
 };
 
 export const spacing = {
