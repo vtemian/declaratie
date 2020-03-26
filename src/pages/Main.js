@@ -121,7 +121,6 @@ function Main() {
         {({ errors, touched, values }) => (
           <Form>
             <Section>Declarație pe proprie răspundere,</Section>
-            <pre>{JSON.stringify(errors)}</pre>
 
             <Section bottom="medium">
               Subsemnatul(a)
