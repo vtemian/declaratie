@@ -39,16 +39,3 @@ export const schema = Yup.object().shape({
     },
   ),
 });
-
-// a: yup.string().when(['b', 'c'], {
-//   is: (b, c) => !b && !c,
-//   then: yup.string().required()
-// }),
-// b: yup.string().when(['a', 'c'], {
-//   is: (a, c) => !a && !c,
-//   then: yup.string().required()
-// }),
-// c: yup.string().when(['a', 'b'], {
-//   is: (a, b) => !a && !b,
-//   then: yup.string().required()
-// })
