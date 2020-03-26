@@ -1,20 +1,21 @@
 import React, { useState, useRef } from "react";
+import { Formik, Form } from "formik";
 import { createGlobalStyle } from "styled-components";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import SignatureCanvas from 'react-signature-canvas'
+import { pdf } from "@react-pdf/renderer";
+import SignatureCanvas from "react-signature-canvas";
+import FileSaver from "file-saver";
 
-import { useEffect, useSetState, useLocalStorage } from "../helpers/hooks";
+import { useEffect, useLocalStorage } from "../helpers/hooks";
 import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
-import downloadPDF from "../helpers/utils";
 
 import Link from "../components/Link";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import Wrapper from "../components/Wrapper";
 import Section from "../components/Section";
-import TextField from "../components/TextField";
-import CheckboxLabel from "../components/CheckboxLabel";
 import Signature from "../components/Signature";
+import { FTF, FCK } from "../components/FormControls";
+import { schema } from '../helpers/validator';
 
 import Renderer from "../pdf/Renderer";
 
@@ -52,34 +53,33 @@ const CSSReset = createGlobalStyle`
 `;
 
 function Main() {
-  const [isGenerated, setIsGenerated] = useState(false);
   const [canvasWidth, setCanvasWidth] = useState(Math.min(window.screen.width, 760));
 
   const emptyValues = {
-    nume: undefined,
-    nume_tata: undefined,
-    nume_mama: undefined,
-    adresa_localitate: undefined,
-    adresa_judet: undefined,
-    adresa_strada: undefined,
-    adresa_numar: undefined,
-    adresa_bloc: undefined,
-    adresa_etaj: undefined,
-    adresa_apartament: undefined,
-    cnp: undefined,
-    ci_seria: undefined,
-    ci_numar: undefined,
-    domiciliu_localitate: undefined,
-    domiciliu_judet: undefined,
-    domiciliu_strada: undefined,
-    domiciliu_numar: undefined,
-    domiciliu_bloc: undefined,
-    domiciliu_etaj: undefined,
-    domiciliu_apartament: undefined,
-    interval_orar: undefined,
-    traseu_start: undefined,
-    traseu_sfarsit: undefined,
-    situatie_urgenta: undefined,
+    nume: "",
+    nume_tata: "",
+    nume_mama: "",
+    adresa_localitate: "",
+    adresa_judet: "",
+    adresa_strada: "",
+    adresa_numar: "",
+    adresa_bloc: "",
+    adresa_etaj: "",
+    adresa_apartament: "",
+    cnp: "",
+    ci_seria: "",
+    ci_numar: "",
+    domiciliu_localitate: "",
+    domiciliu_judet: "",
+    domiciliu_strada: "",
+    domiciliu_numar: "",
+    domiciliu_bloc: "",
+    domiciliu_etaj: "",
+    domiciliu_apartament: "",
+    interval_orar: "",
+    traseu_start: "",
+    traseu_sfarsit: "",
+    situatie_urgenta: "",
     deplasare_servici: false,
     deplasare_consult: false,
     deplasare_cumparaturi: false,
@@ -87,34 +87,18 @@ function Main() {
     deplasare_scurta: false,
     deplasare_animale: false,
     deplasare_urgenta: false,
+    checkboxes_are_valid: false,
   };
 
-  const [initialValues, saveFormValues] = useLocalStorage('cachedForm', emptyValues);
-  const [form, setForm] = useSetState(initialValues);
+  const [initialValues, saveFormValues] = useLocalStorage("cachedForm", emptyValues);
 
   useEffect(() => {
-    saveFormValues(form);
-  }, [form, saveFormValues]);
-
-  const onChange = ({ target }) => {
-    setForm({
-      [target.name]: target.value,
-    });
-  };
-
-  const onCheck = ({ target }) => {
-    setForm({
-      [target.name]: target.checked,
-    });
-  };
-
-  useEffect(() => {
-    const onResizeWindow =() => {
+    const onResizeWindow = () => {
       setCanvasWidth(window.screen.width);
     };
-    window.addEventListener('resize', onResizeWindow);
-    return () => window.removeEventListener('resize', onResizeWindow)
-  }, [])
+    window.addEventListener("resize", onResizeWindow);
+    return () => window.removeEventListener("resize", onResizeWindow);
+  }, []);
 
   const signature = useRef();
 
@@ -125,97 +109,100 @@ function Main() {
       <Section align="center">
         <Title>declarație.ro</Title>
       </Section>
+      <Formik
+        initialValues={{ ...emptyValues, ...initialValues }}
+        validationSchema={schema}
+        onSubmit={async (values, errors) => {
+          saveFormValues(values);
+          const blob = await pdf(<Renderer form={values} signature={signature?.current?.toDataURL()} />).toBlob();
+          FileSaver.saveAs(blob, 'declaratie_propie_raspundere.pdf');
+        }}
+      >
+        {({ errors, touched, values }) => (
+          <Form>
+            <Section>Declarație pe proprie răspundere,</Section>
+            <pre>{JSON.stringify(errors)}</pre>
 
-      <Section>Declarație pe proprie răspundere,</Section>
+            <Section bottom="medium">
+              Subsemnatul(a)
+              <FTF name="nume" />, fiul/fiica lui
+              <FTF name="nume_tata" /> și al
+              <FTF name="nume_mama" />, domiciliat(ă) în
+              <FTF name="adresa_localitate" />, județul/sectorul
+              <FTF name="adresa_judet" />, strada
+              <FTF name="adresa_strada" />, număr
+              <FTF size="small" name="adresa_numar" />, bloc
+              <FTF size="small" name="adresa_bloc" />, etaj
+              <FTF size="small" name="adresa_etaj" />, apartament
+              <FTF size="small" name="adresa_apartament" />, având CNP <FTF name="cnp" />, BI/CI seria
+              <FTF size="small" name="ci_seria" />, număr
+              <FTF name="ci_numar" />.
+            </Section>
 
-      <Section bottom="medium">
-        Subsemnatul(a)
-        <TextField name="nume" value={form?.nume} onChange={onChange} />, fiul/fiica lui
-        <TextField name="nume_tata" value={form?.nume_tata} onChange={onChange} /> și al
-        <TextField name="nume_mama" value={form?.nume_mama} onChange={onChange} />, domiciliat(ă) în
-        <TextField name="adresa_localitate" value={form?.adresa_localitate} onChange={onChange} />, județul/sectorul
-        <TextField name="adresa_judet" value={form?.adresa_judet} onChange={onChange} />, strada
-        <TextField name="adresa_strada" value={form?.adresa_strada} onChange={onChange} />, număr
-        <TextField size="small" name="adresa_numar" value={form?.adresa_numar} onChange={onChange} />, bloc
-        <TextField size="small" name="adresa_bloc" value={form?.adresa_bloc} onChange={onChange} />, etaj
-        <TextField size="small" name="adresa_etaj" value={form?.adresa_etaj} onChange={onChange} />, apartament
-        <TextField size="small" name="adresa_apartament" value={form?.adresa_apartament} onChange={onChange} />, având
-        CNP <TextField name="cnp" value={form?.cnp} onChange={onChange} />, BI/CI seria
-        <TextField size="small" name="ci_seria" value={form?.ci_seria} onChange={onChange} />, număr
-        <TextField name="ci_numar" value={form?.ci_numar} onChange={onChange} />.
-      </Section>
+            <Section>
+              Locuind în fapt în localitatea
+              <FTF name="domiciliu_localitate" />
+              , județul/sectorul <FTF name="domiciliu_judet" />
+              , strada <FTF name="domiciliu_strada" />, număr
+              <FTF size="small" name="domiciliu_numar" />, bloc
+              <FTF size="small" name="domiciliu_bloc" />, etaj
+              <FTF size="small" name="domiciliu_etaj" />, apartament
+              <FTF size="small" name="domiciliu_apartament" />.
+            </Section>
 
-      <Section>
-        Locuind în fapt în localitatea
-        <TextField name="domiciliu_localitate" value={form?.domiciliu_localitate} onChange={onChange} />
-        , județul/sectorul <TextField name="domiciliu_judet" value={form?.domiciliu_judet} onChange={onChange} />
-        , strada <TextField name="domiciliu_strada" value={form?.domiciliu_strada} onChange={onChange} />, număr
-        <TextField size="small" name="domiciliu_numar" value={form?.domiciliu_numar} onChange={onChange} />, bloc
-        <TextField size="small" name="domiciliu_bloc" value={form?.domiciliu_bloc} onChange={onChange} />, etaj
-        <TextField size="small" name="domiciliu_etaj" value={form?.domiciliu_etaj} onChange={onChange} />, apartament
-        <TextField size="small" name="domiciliu_apartament" value={form?.domiciliu_apartament} onChange={onChange} />.
-      </Section>
+            <Section bottom="medium">
+              Cunoscând prevederile articolului 326, referitoare la falsul în declarații precum și ale art. 352
+              referitoare la zădărnicirea combaterii bolilor din Noul Cod Penal, declar pe proprie răspundere faptul că
+              mă deplasez în interes profesional/personal, între orele
+              <FTF name="interval_orar" />, de la
+              <FTF size="large" name="traseu_start" />, până la
+              <FTF size="large" name="traseu_sfarsit" /> pentru:
+            </Section>
 
-      <Section bottom="medium">
-        Cunoscând prevederile articolului 326, referitoare la falsul în declarații precum și ale art. 352 referitoare la
-        zădărnicirea combaterii bolilor din Noul Cod Penal, declar pe proprie răspundere faptul că mă deplasez în
-        interes profesional/personal, între orele
-        <TextField name="interval_orar" value={form?.interval_orar} onChange={onChange} />, de la
-        <TextField size="large" name="traseu_start" value={form?.traseu_start} onChange={onChange} />, până la
-        <TextField size="large" name="traseu_sfarsit" value={form?.traseu_sfarsit} onChange={onChange} /> pentru:
-      </Section>
+            <Section>
+              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_servici">
+                Deplasarea între domiciliu și locul de muncă, atunci când activitatea profesională este esențială și nu
+                poate fi organizată sub formă de lucru la distanță sau deplasarea în interes profesional care nu poate
+                fi amânată.
+              </FCK>
+              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_consult">Consult medical de specialitate care nu poate fi amânat.</FCK>
+              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_cumparaturi">
+                Deplasare pentru cumpărături de primă necesitate la unități comerciale din zona de domiciliu.
+              </FCK>
+              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_ajutor">
+                Deplasare pentru asigurarea asistenței pentru persoane în vârstă, vulnerabile sau pentru însoțirea
+                copiilor.
+              </FCK>
+              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_scurta">
+                Deplasare scurtă, lângă domiciliu, pentru desfășurarea de activități fizice individuale, în aer liber,
+                cu excluderea oricărei forme de activitate sportivă colectivă.
+              </FCK>
+              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_animale">
+                Deplasare scurtă, lângă domiciliu, legată de nevoile animalelor de companie.
+              </FCK>
+              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_urgenta">
+                Deplasare pentru rezolvarea următoarei situații urgente:
+                <FTF size="large" name="situatie_urgenta" />.
+              </FCK>
+            </Section>
 
-      <Section>
-        <CheckboxLabel name="deplasare_servici" checked={form?.deplasare_servici} onCheck={onCheck}>
-          Deplasarea între domiciliu și locul de muncă, atunci când activitatea profesională este esențială și nu poate
-          fi organizată sub formă de lucru la distanță sau deplasarea în interes profesional care nu poate fi amânată.
-        </CheckboxLabel>
-        <CheckboxLabel name="deplasare_consult" checked={form?.deplasare_consult} onCheck={onCheck}>
-          Consult medical de specialitate care nu poate fi amânat.
-        </CheckboxLabel>
-        <CheckboxLabel name="deplasare_cumparaturi" checked={form?.deplasare_cumparaturi} onCheck={onCheck}>
-          Deplasare pentru cumpărături de primă necesitate la unități comerciale din zona de domiciliu.
-        </CheckboxLabel>
-        <CheckboxLabel name="deplasare_ajutor" checked={form?.deplasare_ajutor} onCheck={onCheck}>
-          Deplasare pentru asigurarea asistenței pentru persoane în vârstă, vulnerabile sau pentru însoțirea copiilor.
-        </CheckboxLabel>
-        <CheckboxLabel name="deplasare_scurta" checked={form?.deplasare_scurta} onCheck={onCheck}>
-          Deplasare scurtă, lângă domiciliu, pentru desfășurarea de activități fizice individuale, în aer liber, cu
-          excluderea oricărei forme de activitate sportivă colectivă.
-        </CheckboxLabel>
-        <CheckboxLabel name="deplasare_animale" checked={form?.deplasare_animale} onCheck={onCheck}>
-          Deplasare scurtă, lângă domiciliu, legată de nevoile animalelor de companie.
-        </CheckboxLabel>
-        <CheckboxLabel name="deplasare_urgenta" checked={form?.deplasare_urgenta} onCheck={onCheck}>
-          Deplasare pentru rezolvarea următoarei situații urgente:
-          <TextField size="large" name="situatie_urgenta" value={form?.situatie_urgenta} onChange={onChange} />.
-        </CheckboxLabel>
-      </Section>
+            <Section>
+              Semnatura
+              <Signature>
+                <SignatureCanvas
+                  penColor={color.black}
+                  ref={signature}
+                  canvasProps={{ width: canvasWidth, height: 200 }}
+                />
+              </Signature>
+            </Section>
 
-      <Section>
-        Semnatura
-        <Signature>
-          <SignatureCanvas
-            penColor={color.black}
-            ref={signature}
-            canvasProps={{width: canvasWidth, height: 200}}
-          />
-        </Signature>
-
-      </Section>
-
-      <Section align="center">
-        <Button onClick={() => setIsGenerated(true)}>Descarcă PDF</Button>
-
-        {isGenerated ? (
-          <PDFDownloadLink document={<Renderer form={form} signature={signature?.current?.toDataURL()} />}
-                           fileName="declaratie_proprie_raspundere.pdf">
-            {({ url }) => {
-              url && downloadPDF(url) && setIsGenerated(false);
-            }}
-          </PDFDownloadLink>
-        ) : null}
-      </Section>
+            <Section align="center">
+              <Button type="submit">Descarcă PDF</Button>
+            </Section>
+          </Form>
+        )}
+      </Formik>
 
       <Section bottom="small" textSize="small">
         * Nu ne asumăm responsabilatea pentru corectitudinea, integralitatea și actualitatea informațiilor furnizate pe
