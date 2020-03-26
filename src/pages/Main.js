@@ -10,12 +10,12 @@ import { color, fontWeight, fontFamily, fontSize } from "../helpers/constants";
 
 import Link from "../components/Link";
 import Title from "../components/Title";
-import Button from "../components/Button";
+import { Button, LightButton } from "../components/Button";
 import Wrapper from "../components/Wrapper";
 import Section from "../components/Section";
 import Signature from "../components/Signature";
 import { FTF, FCK } from "../components/FormControls";
-import { schema } from '../helpers/validator';
+import { schema } from "../helpers/validator";
 
 import Renderer from "../pdf/Renderer";
 
@@ -52,8 +52,16 @@ const CSSReset = createGlobalStyle`
   }
 `;
 
+const CANVAS_SIZE = {
+  maxWidth: 760,
+  maxHeight: 200,
+};
+
 function Main() {
-  const [canvasWidth, setCanvasWidth] = useState(Math.min(window.screen.width, 760));
+  const [canvasSize, setCanvasSize] = useState({
+    width: Math.min(window.screen.width, CANVAS_SIZE.maxWidth),
+    height: CANVAS_SIZE.maxHeight,
+  });
 
   const emptyValues = {
     nume: "",
@@ -88,19 +96,28 @@ function Main() {
     deplasare_animale: false,
     deplasare_urgenta: false,
     checkboxes_are_valid: false,
+    signature: null,
   };
 
   const [initialValues, saveFormValues] = useLocalStorage("cachedForm", emptyValues);
 
   useEffect(() => {
     const onResizeWindow = () => {
-      setCanvasWidth(window.screen.width);
+      setCanvasSize({
+        width: Math.min(window.screen.width, CANVAS_SIZE.maxWidth),
+        height: CANVAS_SIZE.maxHeight,
+      });
     };
     window.addEventListener("resize", onResizeWindow);
     return () => window.removeEventListener("resize", onResizeWindow);
   }, []);
 
-  const signature = useRef();
+  let signatureRef = useRef();
+
+  const onClearSignature = (setFieldValue) => {
+    signatureRef.clear();
+    setFieldValue('signature', undefined);
+  };
 
   return (
     <Wrapper>
@@ -114,11 +131,11 @@ function Main() {
         validationSchema={schema}
         onSubmit={async (values, errors) => {
           saveFormValues(values);
-          const blob = await pdf(<Renderer form={values} signature={signature?.current?.toDataURL()} />).toBlob();
-          FileSaver.saveAs(blob, 'declaratie_propie_raspundere.pdf');
+          const blob = await pdf(<Renderer form={values} />).toBlob();
+          FileSaver.saveAs(blob, "declaratie_propie_raspundere.pdf");
         }}
       >
-        {({ errors, touched, values }) => (
+        {({ errors, touched, values, setFieldValue }) => (
           <Form>
             <Section>Declarație pe proprie răspundere,</Section>
 
@@ -164,7 +181,9 @@ function Main() {
                 poate fi organizată sub formă de lucru la distanță sau deplasarea în interes profesional care nu poate
                 fi amânată.
               </FCK>
-              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_consult">Consult medical de specialitate care nu poate fi amânat.</FCK>
+              <FCK hasError={errors.checkboxes_are_valid} name="deplasare_consult">
+                Consult medical de specialitate care nu poate fi amânat.
+              </FCK>
               <FCK hasError={errors.checkboxes_are_valid} name="deplasare_cumparaturi">
                 Deplasare pentru cumpărături de primă necesitate la unități comerciale din zona de domiciliu.
               </FCK>
@@ -185,17 +204,20 @@ function Main() {
               </FCK>
             </Section>
 
-            <Section>
+            <Section bottom="extraSmall">
               Semnatura
               <Signature>
                 <SignatureCanvas
                   penColor={color.black}
-                  ref={signature}
-                  canvasProps={{ width: canvasWidth, height: 200 }}
+                  onEnd={e => setFieldValue('signature', signatureRef.toDataURL())}
+                  ref={ref => (signatureRef = ref)}
+                  canvasProps={canvasSize}
                 />
               </Signature>
             </Section>
-
+            <Section>
+              <LightButton type="button" onClick={() => onClearSignature(setFieldValue)}>Șterge semnătura</LightButton>
+            </Section>
             <Section align="center">
               <Button type="submit">Descarcă PDF</Button>
             </Section>

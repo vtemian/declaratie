@@ -5,6 +5,7 @@ export const color = {
 };
 
 export const spacing = {
+  extraSmall: "5px",
   small: "15px",
   medium: "35px",
   large: "65px",

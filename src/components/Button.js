@@ -12,4 +12,18 @@ const Button = styled.button`
   padding: ${spacing.small} ${spacing.large};
 `;
 
-export default Button;
+const LightButton = styled.button`
+  color: ${color.black};
+  background-color: ${color.white};
+  border: 1px solid ${color.black};
+  cursor: pointer;
+  padding: ${spacing.extraSmall} ${spacing.small};
+  border-radius: ${borderRadius.small};
+  font-size: ${fontSize.medium};
+  &:hover{
+    background-color: ${color.black};
+    color: ${color.white};
+  }
+`;
+
+export { LightButton, Button };

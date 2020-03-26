@@ -14,7 +14,7 @@ const Section = styled.div`
 Section.propTypes = {
   align: PropTypes.oneOf(["left", "right", "center"]),
   textSize: PropTypes.oneOf(["small", "medium", "large", "huge"]),
-  bottom: PropTypes.oneOf(["initial", "small", "medium", "large"]),
+  bottom: PropTypes.oneOf(["initial", "extraSmall", "small", "medium", "large"]),
 };
 
 Section.defaultProps = {
