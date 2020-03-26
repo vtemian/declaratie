@@ -123,9 +123,21 @@ function Main() {
     <Wrapper>
       <CSSReset />
 
+      <Section bottom="extraSmall">
+        Modelul oficial, simplificat, se poate găsi la {' '}
+        <Link href="https://cdn.stirioficiale.ro/storage/26MODEL%20Declaratie%20proprie%20raspundere%202503.pdf">Declarație pe proprie răspundere </Link>
+        și {' '}
+        <Link href="https://cdn.stirioficiale.ro/storage/MODEL%20Adeverinta%20pentru%20angajatori.pdf">Adeverință angajator</Link>.
+      </Section>
+      <Section bottom="large">
+        Documentul poate fi redactat/completat de pe PC/laptop în câmpurile predefinite,
+        în formatul PDF, necesitând ulterior tipărirea și semnătura olografă ("de mână") a titularului.
+      </Section>
+
       <Section align="center">
         <Title>declarație.ro</Title>
       </Section>
+
       <Formik
         initialValues={{ ...emptyValues, ...initialValues }}
         validationSchema={schema}
